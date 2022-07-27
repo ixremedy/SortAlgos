@@ -9,15 +9,23 @@ class AppMain {
         @JvmStatic
         fun main(args: Array<String>) {
             val rand = Random()
+            val size = 100L
             val arr = LinkedList<Long>()
-            //Stream.generate{ rand.nextLong() }.filter { it > 0 }.limit(10).forEach(arr::add)
-            Stream.generate{ rand.nextInt(100) }.filter { it > 0 }.limit(10).map { it.toLong() }.forEach(arr::add)
+            val arr1 = LinkedList<Long>()
+            Stream.generate{ rand.nextInt(10000).toLong() }.filter { it > 0 }.limit(size).forEach(arr::add)
+            Stream.generate{ rand.nextInt(10000).toLong() }.filter { it > 0 }.limit(size).forEach(arr1::add)
 
-            println("Before: $arr")
-
+            println("${size} records\n----------------\nQuick sort:\nBefore: $arr")
+            val start1 = System.currentTimeMillis()
             Sort.quickSort(arr)
+            val end1 = System.currentTimeMillis()
+            println("After: $arr\n time: ${end1 - start1}ms")
 
-            println("After: $arr")
+            println("----------------\nMerge sort:\nBefore: $arr1")
+            val start2 = System.currentTimeMillis()
+            val newArr2 = Sort.mergeSort(arr1)
+            val end2 = System.currentTimeMillis()
+            println("After: $newArr2\n time: ${end2 - end1}ms")
         }
     }
 }

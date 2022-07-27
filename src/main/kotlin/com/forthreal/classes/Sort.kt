@@ -1,9 +1,57 @@
 package com.forthreal.classes
 
 import java.util.*
+import java.util.stream.Stream
 
 object Sort {
     fun quickSort(array: LinkedList<Long>, withDebug: Boolean = false) = quickSort(array, 0, array.size - 1, withDebug)
+
+    fun mergeSort(array: LinkedList<Long>, withDebug: Boolean = false) : LinkedList<Long> {
+        if(array.size > 1) {
+            val iter = array.iterator()
+            val leftPart = LinkedList<Long>()
+            val rightPart = LinkedList<Long>()
+            Stream.generate { iter.next() }.limit((array.size / 2).toLong()).forEach(leftPart::add)
+            Stream.generate { iter.next() }.limit(array.size.toLong() - leftPart.size).forEach(rightPart::add)
+
+            if(withDebug) println(">> Left $leftPart\n>> Right $rightPart")
+
+            return merge(mergeSort(leftPart, withDebug), mergeSort(rightPart, withDebug), withDebug)
+
+        }
+
+        return array
+    }
+
+    private fun merge(array1: LinkedList<Long>, array2: LinkedList<Long>, withDebug: Boolean = false)
+        : LinkedList<Long>
+    {
+        val arr = LinkedList<Long>()
+        var pos1 = 0
+        var pos2 = 0
+
+        if(withDebug) println(">> Merge in $array1 $array2")
+
+        while(array1.size > pos1 && array2.size > pos2 ) {
+            if(array1[pos1] >= array2[pos2]) {
+                arr.add(array2[pos2++])
+            } else {
+                arr.add(array1[pos1++])
+            }
+        }
+
+        while(array1.size > pos1) {
+            arr.add(array1[pos1++])
+        }
+
+        while(array2.size > pos2) {
+            arr.add(array2[pos2++])
+        }
+
+        if(withDebug) println(">> Merge out $arr")
+
+        return arr
+    }
 
     private fun quickSort(array: LinkedList<Long>, lowerBoundary: Int, upperBoundary: Int, withDebug: Boolean = false) {
 
