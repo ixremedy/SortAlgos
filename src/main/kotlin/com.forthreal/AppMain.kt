@@ -9,7 +9,7 @@ class AppMain {
         @JvmStatic
         fun main(args: Array<String>) {
             val rand = Random()
-            val size = 100L
+            val size = 1_000L
             val arr = LinkedList<Long>()
             val arr1 = LinkedList<Long>()
             Stream.generate{ rand.nextInt(10000).toLong() }.filter { it > 0 }.limit(size).forEach(arr::add)
@@ -25,7 +25,7 @@ class AppMain {
             val start2 = System.currentTimeMillis()
             val newArr2 = Sort.mergeSort(arr1)
             val end2 = System.currentTimeMillis()
-            println("After: $newArr2\n time: ${end2 - end1}ms")
+            println("After: $newArr2\n time: ${end2 - start2}ms")
         }
     }
 }
